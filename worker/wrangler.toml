@@ -1,6 +1,10 @@
 name = "doomsday-ticket-alert"
 main = "src/index.js"
 compatibility_date = "2026-11-01"
+# No public URL needed: the cron trigger runs it. Test with `npx wrangler dev --remote`
+# (runs on Cloudflare's network) and watch live runs with `npx wrangler tail`.
+workers_dev = false
+preview_urls = false
 
 [triggers]
 crons = ["* * * * *"]   # every minute
@@ -12,7 +16,7 @@ NTFY_SERVER = "https://ntfy.sh"
 # then paste the id it prints below.
 [[kv_namespaces]]
 binding = "STATE"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
+id = "e0685fba8da3480cb6e44ed38f232038"
 
 [observability]
 enabled = true
