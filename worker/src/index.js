@@ -258,7 +258,11 @@ async function runCheck(env, { dryRun, movie = MOVIE }) {
   if (downChanged) await env.STATE.put("down_since", JSON.stringify(downSince));
 
   console.log(`Checked - ${Object.entries(summary).map(([k, v]) => `${k}: ${v}`).join(", ")}`);
-  return { checkedAt: new Date().toISOString(), dryRun, summary, alerts: sent };
+  const result = { checkedAt: new Date().toISOString(), dryRun, summary, alerts: sent };
+  // Heartbeat every 5 min (288 writes/day, under the free 1000). Read it with:
+  //   npx wrangler kv key get last_run --binding STATE --remote
+  if (!dryRun && new Date().getUTCMinutes() % 5 === 0) await env.STATE.put("last_run", JSON.stringify(result));
+  return result;
 }
 
 export default {

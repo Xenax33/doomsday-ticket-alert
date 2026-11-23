@@ -36,10 +36,18 @@ npx wrangler secret put NTFY_TOPIC              # paste your ntfy topic when ask
 npx wrangler deploy
 ```
 
-Then open `https://doomsday-ticket-alert.<your-subdomain>.workers.dev/check`. It runs a dry check
-(no alerts sent) and shows whether each cinema site answered Cloudflare.
-`/check?movie=godzilla` tests detection against a film that's on sale now.
-Watch live runs with `npx wrangler tail`.
+If deploy says you need a workers.dev subdomain, open the Workers section of the Cloudflare
+dashboard once (that creates it) and deploy again. The Worker has no public URL; the cron runs it.
+
+**Is it running?** Every 5 minutes it saves its last result:
+
+```powershell
+npx wrangler kv key get last_run --binding STATE --remote
+```
+
+**Test on Cloudflare's network:** `npx wrangler dev --remote`, then open
+`http://localhost:8787/check` (dry check, sends nothing) or `/check?movie=godzilla` to test
+detection against a film that's on sale now.
 
 Local testing: put `NTFY_TOPIC=<topic>` in `worker/.dev.vars`, then
 `npx wrangler dev --test-scheduled` and open `http://localhost:8787/check`.
