@@ -1,0 +1,13 @@
+# Private: holds your ntfy topic. Anyone with the topic can read your alerts.
+config.json
+worker/.dev.vars
+.dev.vars
+
+# Local run state
+state.json
+watch.log
+__pycache__/
+
+# Wrangler
+worker/.wrangler/
+node_modules/
